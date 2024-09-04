@@ -1,0 +1,40 @@
+name: Run code blocks
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+
+jobs:
+  run-code-blocks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      # https://github.com/actions/setup-go
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.0'
+
+      # https://github.com/mikkelricky/markdown-code-runner
+      - run: |
+          ls -l
+          echo README.md
+          cat README.md
+          echo "--------------------------------------------------------------------------------"
+
+          grep -E '^`+ *shell' README.md
+
+          go run github.com/mikkelricky/markdown-code-runner@latest
+          go run github.com/mikkelricky/markdown-code-runner@latest --version
+
+          go run github.com/mikkelricky/markdown-code-runner@latest show --file README.md --verbose
+
+          # (git clone --depth=1 --branch feature/action-debug https://github.com/mikkelricky/markdown-code-runner && cd markdown-code-runner && go run ./ show --verbose && cd - && rm -fr markdown-code-runner)
+
+          go run github.com/mikkelricky/markdown-code-runner@latest run coding-standards-composer --verbose --echo '👉 '
