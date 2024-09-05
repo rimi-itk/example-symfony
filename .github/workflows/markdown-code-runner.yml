@@ -22,7 +22,9 @@ jobs:
           go-version: '1.23.0'
 
       # https://github.com/mikkelricky/markdown-code-runner
+      # We need to run as root in GitHub Actions, hence the `--substitutions` hack!
       - run: |
           go run github.com/mikkelricky/markdown-code-runner@latest run \
             --verbose --echo '👉 ' \
+            --substitutions '"docker compose run ": "docker compose run --user root "' \
             development-install coding-standards-composer
