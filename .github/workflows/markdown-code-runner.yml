@@ -23,18 +23,6 @@ jobs:
 
       # https://github.com/mikkelricky/markdown-code-runner
       - run: |
-          ls -l
-          echo README.md
-          cat README.md
-          echo "--------------------------------------------------------------------------------"
-
-          grep -E '^`+ *shell' README.md
-
-          go run github.com/mikkelricky/markdown-code-runner@latest
-          go run github.com/mikkelricky/markdown-code-runner@latest --version
-
-          go run github.com/mikkelricky/markdown-code-runner@latest show --file README.md --verbose
-
-          # (git clone --depth=1 --branch feature/action-debug https://github.com/mikkelricky/markdown-code-runner && cd markdown-code-runner && go run ./ show --verbose && cd - && rm -fr markdown-code-runner)
-
-          go run github.com/mikkelricky/markdown-code-runner@latest run coding-standards-composer --verbose --echo '👉 '
+          go run github.com/mikkelricky/markdown-code-runner@latest run \
+            --verbose --echo '👉 ' \
+            development-install coding-standards-composer
