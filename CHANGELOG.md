@@ -7,4 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-2](https://github.com/rimi-itk/example-symfony/pull/2)
+  Person and address
+
 [Unreleased]: https://github.com/rimi-itk/example-symfony
