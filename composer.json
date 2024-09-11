@@ -1,4 +1,6 @@
 {
+    "name": "rimi-itk/example-symfony",
+    "description": "Symfony examles and experiments",
     "license": "proprietary",
     "type": "project",
     "require": {
@@ -12,6 +14,11 @@
         "symfony/framework-bundle": "~7.1.0",
         "symfony/runtime": "~7.1.0",
         "symfony/yaml": "~7.1.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^1.12",
+        "vincentlanglet/twig-cs-fixer": "^3.1"
     },
     "replace": {
         "symfony/polyfill-ctype": "*",
@@ -49,7 +56,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "7.1.*"
         }
     },
@@ -63,6 +70,32 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
-        }
+        },
+        "code-analysis": [
+            "@code-analysis/phpstan"
+        ],
+        "code-analysis/phpstan": [
+            "phpstan analyse"
+        ],
+        "coding-standards-apply": [
+            "@coding-standards-apply/php-cs-fixer",
+            "@coding-standards-apply/twig-cs-fixer"
+        ],
+        "coding-standards-apply/php-cs-fixer": [
+            "php-cs-fixer fix"
+        ],
+        "coding-standards-apply/twig-cs-fixer": [
+            "twig-cs-fixer fix"
+        ],
+        "coding-standards-check": [
+            "@coding-standards-check/php-cs-fixer",
+            "@coding-standards-check/twig-cs-fixer"
+        ],
+        "coding-standards-check/php-cs-fixer": [
+            "php-cs-fixer check"
+        ],
+        "coding-standards-check/twig-cs-fixer": [
+            "twig-cs-fixer check"
+        ]
     }
 }
