@@ -29,6 +29,11 @@ class Address
         $this->people = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return $this->getAddress() ?? self::class;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

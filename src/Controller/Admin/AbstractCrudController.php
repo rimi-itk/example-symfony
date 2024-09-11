@@ -7,8 +7,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController as BaseAbs
 
 abstract class AbstractCrudController extends BaseAbstractCrudController
 {
-public function configureCrud(Crud $crud): Crud
-{
-  return $crud->showEntityActionsInlined();
-}
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud->showEntityActionsInlined();
+    }
 }

@@ -14,6 +14,10 @@ docker compose exec phpfpm composer install
 docker compose exec phpfpm bin/console doctrine:migrations:migrate --no-interaction
 ```
 
+``` shell name=development-fixtures-load
+docker compose exec phpfpm bin/console doctrine:fixtures:load --no-interaction
+```
+
 ### Coding standards
 
 ``` shell name=coding-standards-composer
