@@ -9,6 +9,10 @@ on:
 jobs:
   run-code-blocks:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        blocks:
+          - development-install coding-standards-composer
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -26,5 +30,5 @@ jobs:
       - run: |
           go run github.com/mikkelricky/markdown-code-runner@latest run \
             --verbose --echo '👉 ' \
-            --substitutions '"docker compose run ": "docker compose run --user root "' \
-            development-install coding-standards-composer
+            --substitutions '{"docker compose run ": "docker compose run --user root ", "docker compose exec ": "docker compose exec --user root "}' \
+            ${{ matrix.blocks }}

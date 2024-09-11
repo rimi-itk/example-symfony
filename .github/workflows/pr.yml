@@ -1,0 +1,82 @@
+on: pull_request
+name: Review
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    name: Changelog should be updated
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: Git fetch
+        run: git fetch
+
+      - name: Check that changelog has been updated.
+        run: git diff --exit-code origin/${{ github.base_ref }} -- CHANGELOG.md && exit 1 || exit 0
+
+  markdown-coding-standards:
+    name: Markdown coding standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Coding standards
+        run: |
+          docker run --rm --volume "$PWD:/md" peterdavehello/markdownlint markdownlint --ignore LICENSE.md --ignore vendor/ '**/*.md'
+
+  composer-normalize:
+    name: composer-normalize
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@master
+      - run: |
+          docker network inspect frontend 2>&1 > /dev/null || docker network create frontend
+          docker compose up --detach
+          docker compose exec --user=root phpfpm composer install
+          docker compose exec --user=root phpfpm composer normalize
+
+  coding-standards-php-cs-fixer:
+    name: coding-standards-check/php-cs-fixer
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@master
+      - run: |
+          docker network inspect frontend 2>&1 > /dev/null || docker network create frontend
+          docker compose up --detach
+          docker compose exec --user=root phpfpm composer install
+          docker compose exec --user=root phpfpm composer coding-standards-check/php-cs-fixer
+
+  coding-standards-twig-cs-fixer:
+    name: coding-standards-check/twig-cs-fixer
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@master
+      - run: |
+          docker network inspect frontend 2>&1 > /dev/null || docker network create frontend
+          docker compose up --detach
+          docker compose exec --user=root phpfpm composer install
+          docker compose exec --user=root phpfpm composer coding-standards-check/twig-cs-fixer
+
+  code-analysis-phpstan:
+    name: code-analysis/phpstan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@master
+      - run: |
+          docker network inspect frontend 2>&1 > /dev/null || docker network create frontend
+          docker compose up --detach
+          docker compose exec --user=root phpfpm composer install
+          docker compose exec --user=root phpfpm composer code-analysis/phpstan
