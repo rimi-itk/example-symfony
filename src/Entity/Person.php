@@ -24,6 +24,9 @@ class Person
     #[ORM\ManyToMany(targetEntity: Address::class, inversedBy: 'people')]
     private Collection $address;
 
+    #[ORM\ManyToOne]
+    private ?Address $primaryAddress = null;
+
     public function __construct()
     {
         $this->address = new ArrayCollection();
@@ -71,6 +74,18 @@ class Person
     public function removeAddress(Address $address): static
     {
         $this->address->removeElement($address);
+
+        return $this;
+    }
+
+    public function getPrimaryAddress(): ?Address
+    {
+        return $this->primaryAddress;
+    }
+
+    public function setPrimaryAddress(?Address $primaryAddress): static
+    {
+        $this->primaryAddress = $primaryAddress;
 
         return $this;
     }

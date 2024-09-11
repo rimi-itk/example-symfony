@@ -15,8 +15,9 @@ class PersonFixtures extends Fixture implements DependentFixtureInterface
     {
         $person = new Person();
         $person
-          ->setName('Person 1')
-          ->addAddress($this->getAddress('address_1'));
+            ->setName('Person 1')
+            ->setPrimaryAddress($this->getAddress('address_1'))
+            ->addAddress($this->getAddress('address_3'));
         $manager->persist($person);
 
         $person = new Person();

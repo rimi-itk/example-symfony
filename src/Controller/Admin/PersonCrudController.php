@@ -18,6 +18,7 @@ class PersonCrudController extends AbstractCrudController
     {
         yield IdField::new('id')->hideOnForm();
         yield TextField::new('name');
+        yield AssociationField::new('primaryAddress');
         yield AssociationField::new('address');
     }
 }
